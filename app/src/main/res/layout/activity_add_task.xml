@@ -7,7 +7,7 @@
     tools:context=".AddTask">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText"
+        android:id="@+id/dtask"
         android:layout_width="285dp"
         android:layout_height="54dp"
         android:hint="Do somthing"
@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.388"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputEditText"
+        app:layout_constraintTop_toBottomOf="@+id/mtask"
         app:layout_constraintVertical_bias="0.469" />
 
     <TextView
@@ -59,7 +59,7 @@
         app:layout_constraintVertical_bias="0.436" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/textInputEditText"
+        android:id="@+id/mtask"
         android:layout_width="298dp"
         android:layout_height="54dp"
         android:hint="Make Task"
@@ -69,4 +69,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.217" />
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--        app:startIconDrawable="@drawable/ic_password"-->
+<!--        android:layout_width="409dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="password"-->
+<!--        app:helperText="Required"-->
+<!--        app:counterEnabled="true"-->
+<!--        app:counterMaxLength="20"-->
+<!--        app:helperTextTextColor="@color/black"-->
+<!--        app:endIconMode="password_toggle"-->
+<!--        tools:layout_editor_absoluteX="1dp"-->
+<!--        tools:layout_editor_absoluteY="507dp"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:maxLength="21"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:backgroundTint="#fff"-->
+<!--            android:inputType="textPassword" />-->
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
