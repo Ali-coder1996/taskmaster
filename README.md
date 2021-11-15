@@ -21,3 +21,25 @@
 ## All Task
 
 ![all tasks](screenshots/alltask.png)
+
+## lab 27
+
+## home page after add three button
+
+![homepageafteraddthreebutton](screenshots/homepageAfteraddthreeButton.png)
+
+## first task
+
+![firstPage](screenshots/firstTasks.png)
+
+## second task
+
+![secondPage](screenshots/secondTasks.png)
+
+## Third task
+
+![ThirdPage](screenshots/thirdTask.png)
+
+## setting page
+
+![settingPage](screenshots/settingPage.ong.png)

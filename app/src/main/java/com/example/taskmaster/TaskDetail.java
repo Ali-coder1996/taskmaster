@@ -6,18 +6,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-public class AllTaskes extends AppCompatActivity {
+public class TaskDetail extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_taskes);
+        setContentView(R.layout.activity_task_detail);
 
         ActionBar actionBar = getSupportActionBar();
 
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        TextView textView =findViewById(R.id.detail);
+        String sport = getIntent().getExtras().get("title").toString();
+        textView.setText(sport);
+
     }
 
     @Override
