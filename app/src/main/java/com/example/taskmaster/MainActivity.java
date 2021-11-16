@@ -3,6 +3,8 @@ package com.example.taskmaster;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +28,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        List<Task> allTask = new ArrayList<>();
+        allTask.add(new Task("sleep","I don't sleep well yesterday","new"));
+        allTask.add(new Task("Gym","I wanna go to practice exercise to change my mood ","assign"));
+        allTask.add(new Task("read","I wanna read about the lecture tomorrow","in progress"));
+        allTask.add(new Task("re-submitted lab","just check if I need to re-submit any assignment ","complete"));
+
+
+        RecyclerView recyclerView =findViewById(R.id.allTaskRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(new TasksAdapter(this,allTask));
 
         ImageView imageView =findViewById(R.id.imageView2);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -49,33 +65,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent AllTasks= new Intent(MainActivity.this,AllTaskes.class);
                 startActivity(AllTasks);
-            }
-        });
-        Button sport = findViewById(R.id.sport);
-        sport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent sport= new Intent(MainActivity.this,TaskDetail.class);
-                sport.putExtra("title","sport");
-                startActivity(sport);
-            }
-        });
-        Button read = findViewById(R.id.read);
-        read.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent read= new Intent(MainActivity.this,TaskDetail.class);
-                read.putExtra("title","read");
-                startActivity(read);
-            }
-        });
-        Button sleep = findViewById(R.id.sleep);
-        sleep.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent sleep= new Intent(MainActivity.this,TaskDetail.class);
-                sleep.putExtra("title","sleep");
-                startActivity(sleep);
             }
         });
 //        Button setting = findViewById(R.id.setting);
