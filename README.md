@@ -43,3 +43,13 @@
 ## setting page
 
 ![settingPage](screenshots/settingPage.ong.png)
+
+## lab 28
+
+## home Page
+
+![](screenshots/homepageRecyclerview.png)
+
+## detail page
+
+![](screenshots/detailPageAfterclick.png)

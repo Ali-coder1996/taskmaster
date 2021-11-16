@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TaskDetail extends AppCompatActivity {
 
@@ -19,11 +20,17 @@ public class TaskDetail extends AppCompatActivity {
 
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
+        getTask();
 
-        TextView textView =findViewById(R.id.detail);
-        String sport = getIntent().getExtras().get("title").toString();
-        textView.setText(sport);
-
+    }
+    public void getTask(){
+        if (getIntent().hasExtra("title1")){
+            TextView textView =findViewById(R.id.detail);
+            String task = getIntent().getExtras().get("title1").toString();
+            textView.setText(task);
+        }else {
+            Toast.makeText(this,"no data",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
