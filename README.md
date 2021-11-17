@@ -53,3 +53,13 @@
 ## detail page
 
 ![](screenshots/detailPageAfterclick.png)
+
+## lab 29
+
+## home Page
+
+![](screenshots/homepageclass29.png)
+
+## add page
+
+![](screenshots/addtaskclass29.png)

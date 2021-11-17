@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,17 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        List<Task> allTask = new ArrayList<>();
-        allTask.add(new Task("sleep","I don't sleep well yesterday","new"));
-        allTask.add(new Task("Gym","I wanna go to practice exercise to change my mood ","assign"));
-        allTask.add(new Task("read","I wanna read about the lecture tomorrow","in progress"));
-        allTask.add(new Task("re-submitted lab","just check if I need to re-submit any assignment ","complete"));
-
-
-        RecyclerView recyclerView =findViewById(R.id.allTaskRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        recyclerView.setAdapter(new TasksAdapter(this,allTask));
-
         ImageView imageView =findViewById(R.id.imageView2);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(setting);
             }
         });
-
 
         Button AddTask = findViewById(R.id.AddTask);
         AddTask.setOnClickListener(new View.OnClickListener() {
@@ -67,20 +56,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(AllTasks);
             }
         });
-//        Button setting = findViewById(R.id.setting);
-//        setting.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent setting= new Intent(MainActivity.this,SettingsPage.class);
-//                startActivity(setting);
-//            }
-//        });
-    }
 
+
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        List<Task> allTask = new ArrayList<>();
+
+        AppDatabase db = AppDatabase.getDataBaseObj(this);
+        TaskDao taskDao = db.taskDao();
+        allTask=taskDao.getAllTask();
+
+        RecyclerView recyclerView =findViewById(R.id.allTaskRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(new TasksAdapter(this,allTask));
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         String name = sharedPreferences.getString("userName","username");

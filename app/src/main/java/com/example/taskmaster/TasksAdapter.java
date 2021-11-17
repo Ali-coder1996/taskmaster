@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,11 +40,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
 
         holder.task = allTask.get(position);
-
+//        ImageView imageView = holder.imageView.findViewById(R.id.bdelete);
         TextView title = holder.itemView.findViewById(R.id.taskTitle);
         TextView body = holder.itemView.findViewById(R.id.taskBody);
         TextView state = holder.itemView.findViewById(R.id.taskState);
 
+//        imageView.setImageAlpha(holder.task.getUid());
         title.setText(holder.task.title);
         body.setText(holder.task.body);
         state.setText(holder.task.state);
@@ -51,9 +53,24 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(context,TaskDetail.class);
-                intent.putExtra("title1",holder.task.title);
-                context.startActivity(intent);
+                Intent intent= new Intent(view.getContext(),TaskDetail.class);
+
+                intent.putExtra("id", holder.task.getUid());
+                intent.putExtra("title",holder.task.title);
+                intent.putExtra("body",holder.task.body);
+                intent.putExtra("state",holder.task.state);
+                view.getContext().startActivity(intent);
+            }
+        });
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<Task> allTask = new ArrayList<>();
+                AppDatabase db = AppDatabase.getDataBaseObj(view.getContext());
+                TaskDao taskDao = db.taskDao();
+                taskDao.delete(holder.task);
+                Intent intent= new Intent(view.getContext(),MainActivity.class);
+                view.getContext().startActivity(intent);
             }
         });
     }
@@ -68,10 +85,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         public Task task;
         public View itemView;
         public ConstraintLayout constraintLayout;
+        public ImageView imageView;
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView=itemView;
             constraintLayout = itemView.findViewById(R.id.fragment);
+            imageView = itemView.findViewById(R.id.bdelete);
         }
     }
 }

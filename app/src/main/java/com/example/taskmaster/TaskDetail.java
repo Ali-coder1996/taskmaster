@@ -9,6 +9,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TaskDetail extends AppCompatActivity {
 
     @Override
@@ -22,15 +25,22 @@ public class TaskDetail extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         getTask();
 
+
     }
     public void getTask(){
-        if (getIntent().hasExtra("title1")){
+
             TextView textView =findViewById(R.id.detail);
-            String task = getIntent().getExtras().get("title1").toString();
+            String task = getIntent().getExtras().get("title").toString();
             textView.setText(task);
-        }else {
-            Toast.makeText(this,"no data",Toast.LENGTH_LONG).show();
-        }
+
+            TextView md =findViewById(R.id.md);
+            String des = getIntent().getExtras().get("body").toString();
+            md.setText(des);
+
+            TextView sd =findViewById(R.id.sd);
+            String sta = getIntent().getExtras().get("state").toString();
+            sd.setText(sta);
+
     }
 
     @Override

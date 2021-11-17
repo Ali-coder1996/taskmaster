@@ -41,9 +41,7 @@ public class SettingsPage extends AppCompatActivity {
                 share.putString("userName",userName);
                 share.apply();
 
-                Toast.makeText(SettingsPage.this,userName,Toast.LENGTH_LONG).show();
-                Intent AddTask= new Intent(SettingsPage.this,MainActivity.class);
-                startActivity(AddTask);
+                finish();
             }
         });
     }
