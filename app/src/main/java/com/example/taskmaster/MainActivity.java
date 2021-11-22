@@ -3,10 +3,12 @@ package com.example.taskmaster;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,6 +24,10 @@ import android.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import android.view.Menu;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,16 +35,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Home Page");
 
-
-        ImageView imageView =findViewById(R.id.imageView2);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent setting= new Intent(MainActivity.this,SettingsPage.class);
-                startActivity(setting);
-            }
-        });
 
         Button AddTask = findViewById(R.id.AddTask);
         AddTask.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +54,37 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(AllTasks);
             }
         });
+//        FloatingActionButton floatingActionButton = findViewById(R.id.add);
+//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view,"Submmited",Snackbar.LENGTH_LONG).setAction("close", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent AddTask= new Intent(MainActivity.this,AddTask.class);
+//                        startActivity(AddTask);
+//                    }
+//                }).show();
+//            }
+//        });
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.my:
+                Intent setting= new Intent(MainActivity.this,SettingsPage.class);
+                startActivity(setting);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -79,4 +106,6 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.name);
         textView.setText(name+"'s " +"Tasks");
     }
+
+
 }

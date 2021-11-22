@@ -15,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +63,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                 intent.putExtra("body",holder.task.body);
                 intent.putExtra("state",holder.task.state);
                 view.getContext().startActivity(intent);
+
             }
         });
         holder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +73,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                 AppDatabase db = AppDatabase.getDataBaseObj(view.getContext());
                 TaskDao taskDao = db.taskDao();
                 taskDao.delete(holder.task);
+
+                view.onFinishTemporaryDetach();
                 Intent intent= new Intent(view.getContext(),MainActivity.class);
                 view.getContext().startActivity(intent);
             }

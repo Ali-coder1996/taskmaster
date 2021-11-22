@@ -10,23 +10,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Taskmaster">
         <activity
+            android:name=".MainActivity"
+            android:exported="true"/>
+        <activity
             android:name=".SettingsPage"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Setting"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".TaskDetail"
-            android:exported="true" />
+            android:exported="true"
+            android:label="TaskDetail"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AllTaskes"
-            android:exported="true" />
+            android:exported="true"
+            android:label="AllTasks"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AddTask"
-            android:exported="true" />
+            android:exported="true"
+            android:label="AddTasks"
+            android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".spllash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
