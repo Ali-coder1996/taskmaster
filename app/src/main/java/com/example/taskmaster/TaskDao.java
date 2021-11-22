@@ -13,14 +13,11 @@ public interface TaskDao {
     @Query("SELECT * FROM task")
     List<Task> getAllTask();
 
-    @Query("SELECT * FROM task WHERE title LIKE :id")
-    Task getById(Integer id);
+    @Query("SELECT * FROM task WHERE uid=:id")
+    Task getById(int id);
 
     @Insert
     void insertOne(Task tasks);
-
-    @Query("SELECT * FROM task WHERE title LIKE :name")
-    Task findByName(String name);
 
     @Delete
     void delete(Task tasks);

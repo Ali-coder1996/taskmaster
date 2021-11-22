@@ -19,37 +19,26 @@ public class TaskDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
 
-        ActionBar actionBar = getSupportActionBar();
-
-        // showing the back button in action bar
-        actionBar.setDisplayHomeAsUpEnabled(true);
         getTask();
-
 
     }
     public void getTask(){
 
-            TextView textView =findViewById(R.id.detail);
-            String task = getIntent().getExtras().get("title").toString();
-            textView.setText(task);
+int id =getIntent().getIntExtra("id",0);
 
-            TextView md =findViewById(R.id.md);
-            String des = getIntent().getExtras().get("body").toString();
-            md.setText(des);
+    AppDatabase db = AppDatabase.getDataBaseObj(this);
+    TaskDao taskDao = db.taskDao();
+    Task task=taskDao.getById(id);
 
-            TextView sd =findViewById(R.id.sd);
-            String sta = getIntent().getExtras().get("state").toString();
-            sd.setText(sta);
+    TextView textView =findViewById(R.id.detail);
+        textView.setText(task.title);
+
+    TextView md =findViewById(R.id.md);
+        md.setText(task.body);
+
+    TextView sd =findViewById(R.id.sd);
+        sd.setText(task.state);
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
