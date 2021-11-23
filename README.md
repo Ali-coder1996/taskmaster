@@ -63,3 +63,7 @@
 ## add page
 
 ![](screenshots/addtaskclass29.png)
+
+## lab 32
+
+## I change the Room database to aws 

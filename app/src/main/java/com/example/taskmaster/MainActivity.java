@@ -1,33 +1,31 @@
 package com.example.taskmaster;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.amplifyframework.AmplifyException;
+//import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import android.view.Menu;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,13 +34,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Home Page");
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
 
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
 
         Button AddTask = findViewById(R.id.AddTask);
         AddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent AddTask= new Intent(MainActivity.this,AddTask.class);
+                Intent AddTask = new Intent(MainActivity.this, AddTask.class);
                 startActivity(AddTask);
             }
         });
@@ -50,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         AllTasks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent AllTasks= new Intent(MainActivity.this,AllTaskes.class);
+                Intent AllTasks = new Intent(MainActivity.this, AllTaskes.class);
                 startActivity(AllTasks);
             }
         });
@@ -67,19 +74,19 @@ public class MainActivity extends AppCompatActivity {
 //                }).show();
 //            }
 //        });
-    }
 
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.my:
-                Intent setting= new Intent(MainActivity.this,SettingsPage.class);
+                Intent setting = new Intent(MainActivity.this, SettingsPage.class);
                 startActivity(setting);
                 return true;
             default:
@@ -90,22 +97,51 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        handleRViewShow();
+//
+//        AppDatabase db = AppDatabase.getDataBaseObj(this);
+//        TaskDao taskDao = db.taskDao();
+//        allTask=taskDao.getAllTask();
 
+    }
+    private synchronized void handleRViewShow(){
         List<Task> allTask = new ArrayList<>();
 
-        AppDatabase db = AppDatabase.getDataBaseObj(this);
-        TaskDao taskDao = db.taskDao();
-        allTask=taskDao.getAllTask();
+        try {
+            Amplify.API.query(ModelQuery.list(Task.class),
+                    response -> {
+                        for (Task task : response.getData()){
+                            allTask.add(task);
+                            Log.i("ali",task.getTitle());
+                        }
+                    },
+                    error -> Log.e("error",error.toString())
+                    );
+            try {
+                Thread.sleep(1500);
+                RecyclerView recyclerView = findViewById(R.id.allTaskRecyclerView);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                recyclerView.setAdapter(new TasksAdapter(this, allTask));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-        RecyclerView recyclerView =findViewById(R.id.allTaskRecyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        recyclerView.setAdapter(new TasksAdapter(this,allTask));
-
+        } catch (Exception e) {
+            Log.e("Tutorial", "Could not initialize Amplify", e);
+        }
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         String name = sharedPreferences.getString("userName","username");
         TextView textView = findViewById(R.id.name);
         textView.setText(name+"'s " +"Tasks");
     }
 
+    }
 
-}
+
+//
+//        RecyclerView recyclerView =findViewById(R.id.allTaskRecyclerView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+//        recyclerView.setAdapter(new TasksAdapter(this,allTask));
+
+
+
