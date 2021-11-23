@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -13,10 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
+import com.amplifyframework.datastore.generated.model.Task;
 
 public class AddTask extends AppCompatActivity {
 
@@ -34,12 +38,12 @@ public class AddTask extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(AddTask.this, "submitted!", Toast.LENGTH_LONG).show();
-                AppDatabase db = AppDatabase.getDataBaseObj(view.getContext());
-                TaskDao taskDao = db.taskDao();
-                taskDao.insertOne(new Task(mtask.getText().toString(),dtask.getText().toString(),stask.getText().toString()));
-                mtask.setText("");
-                dtask.setText("");
-                stask.setText("");
+                Task task = Task.builder().title(mtask.getText().toString()).body(dtask.getText().toString()).state(stask.getText().toString()).build();
+                Amplify.API.mutate(
+                        ModelMutation.create(task),
+                        response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
+                        error -> Log.e("MyAmplifyApp", "Create failed", error)
+                );
                 finish();
             }
         });

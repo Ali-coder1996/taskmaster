@@ -3,6 +3,7 @@ package com.example.taskmaster;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,14 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.amplifyframework.datastore.generated.model.Task;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
 
@@ -49,19 +53,20 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         TextView state = holder.itemView.findViewById(R.id.taskState);
 
 //        imageView.setImageAlpha(holder.task.getUid());
-        title.setText(holder.task.title);
-        body.setText(holder.task.body);
-        state.setText(holder.task.state);
+        title.setText(holder.task.getTitle());
+        body.setText(holder.task.getBody());
+        state.setText(holder.task.getState());
 
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(view.getContext(),TaskDetail.class);
 
-                intent.putExtra("id", holder.task.getUid());
-                intent.putExtra("title",holder.task.title);
-                intent.putExtra("body",holder.task.body);
-                intent.putExtra("state",holder.task.state);
+                intent.putExtra("id", holder.task.getId());
+                intent.putExtra("data", String.valueOf(holder.task));
+                intent.putExtra("title",holder.task.getTitle());
+                intent.putExtra("body",holder.task.getBody());
+                intent.putExtra("state",holder.task.getState());
                 view.getContext().startActivity(intent);
 
             }
@@ -69,11 +74,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Task> allTask = new ArrayList<>();
-                AppDatabase db = AppDatabase.getDataBaseObj(view.getContext());
-                TaskDao taskDao = db.taskDao();
-                taskDao.delete(holder.task);
 
+                Amplify.API.mutate(
+                        ModelMutation.delete(holder.task),
+                        response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
+                        error -> Log.e("MyAmplifyApp", "Create failed", error)
+                );
                 view.onFinishTemporaryDetach();
                 Intent intent= new Intent(view.getContext(),MainActivity.class);
                 view.getContext().startActivity(intent);
