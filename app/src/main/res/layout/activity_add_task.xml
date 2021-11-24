@@ -47,13 +47,13 @@
         android:id="@+id/fromAddTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="188dp"
+        android:layout_marginBottom="72dp"
         android:backgroundTint="#8FC8F4"
         android:text="Add Task"
         android:textColor="#776565"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.161"
+        app:layout_constraintHorizontal_bias="0.425"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -107,28 +107,58 @@
         app:layout_constraintTop_toBottomOf="@+id/mtask"
         app:layout_constraintVertical_bias="0.575" />
 
-    <!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--        app:startIconDrawable="@drawable/ic_password"-->
-<!--        android:layout_width="409dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="password"-->
-<!--        app:helperText="Required"-->
-<!--        app:counterEnabled="true"-->
-<!--        app:counterMaxLength="20"-->
-<!--        app:helperTextTextColor="@color/black"-->
-<!--        app:endIconMode="password_toggle"-->
-<!--        tools:layout_editor_absoluteX="1dp"-->
-<!--        tools:layout_editor_absoluteY="507dp"-->
-<!--        tools:ignore="MissingConstraints">-->
+    <RadioGroup
+        android:id="@+id/teams"
+        android:layout_width="wrap_content"
+        android:layout_height="142dp"
+        app:layout_constraintBottom_toTopOf="@+id/fromAddTask"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.752"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stask"
+        app:layout_constraintVertical_bias="0.0">
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:maxLength="21"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:backgroundTint="#fff"-->
-<!--            android:inputType="textPassword" />-->
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+        <RadioButton
+            android:id="@+id/teamA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A" />
+
+        <RadioButton
+            android:id="@+id/teamB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="B" />
+
+        <RadioButton
+            android:id="@+id/teamC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="C" />
+    </RadioGroup>
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+    <!--        app:startIconDrawable="@drawable/ic_password"-->
+    <!--        android:layout_width="409dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:hint="password"-->
+    <!--        app:helperText="Required"-->
+    <!--        app:counterEnabled="true"-->
+    <!--        app:counterMaxLength="20"-->
+    <!--        app:helperTextTextColor="@color/black"-->
+    <!--        app:endIconMode="password_toggle"-->
+    <!--        tools:layout_editor_absoluteX="1dp"-->
+    <!--        tools:layout_editor_absoluteY="507dp"-->
+    <!--        tools:ignore="MissingConstraints">-->
+
+    <!--        <com.google.android.material.textfield.TextInputEditText-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:maxLength="21"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:backgroundTint="#fff"-->
+    <!--            android:inputType="textPassword" />-->
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
