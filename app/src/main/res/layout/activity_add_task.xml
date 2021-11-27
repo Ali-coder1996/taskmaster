@@ -107,35 +107,29 @@
         app:layout_constraintTop_toBottomOf="@+id/mtask"
         app:layout_constraintVertical_bias="0.575" />
 
-    <RadioGroup
-        android:id="@+id/teams"
-        android:layout_width="wrap_content"
-        android:layout_height="142dp"
+    <com.google.android.material.textfield.TextInputLayout
+
+        android:id="@+id/textInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:hint="team List"
         app:layout_constraintBottom_toTopOf="@+id/fromAddTask"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.752"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stask"
-        app:layout_constraintVertical_bias="0.0">
+        tools:ignore="MissingConstraints">
 
-        <RadioButton
-            android:id="@+id/teamA"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="A" />
-
-        <RadioButton
-            android:id="@+id/teamB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="B" />
-
-        <RadioButton
-            android:id="@+id/teamC"
+        <AutoCompleteTextView
+            android:id="@+id/menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="C" />
-    </RadioGroup>
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!--    <com.google.android.material.textfield.TextInputLayout-->
     <!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
