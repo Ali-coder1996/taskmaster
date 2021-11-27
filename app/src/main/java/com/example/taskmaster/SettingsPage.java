@@ -28,14 +28,16 @@ public class SettingsPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                TextInputEditText teamNameField=findViewById(R.id.teamName);
                 TextInputEditText textInputEditText = findViewById(R.id.user);
+
                 String userName = textInputEditText.getText().toString();
 
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(SettingsPage.this);
 
-                SharedPreferences.Editor share = sharedPreferences.edit();
-                share.putString("userName",userName);
-                share.apply();
+
+                sharedPreferences.edit().putString("teamName",teamNameField.getText().toString()).apply();
+                sharedPreferences.edit().putString("userName",userName).apply();
 
                 finish();
             }

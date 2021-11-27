@@ -5,10 +5,15 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -22,11 +27,15 @@ import com.amplifyframework.datastore.generated.model.Team;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import com.amplifyframework.datastore.generated.model.Task;
 
 public class AddTask extends AppCompatActivity {
-
+    public   Task t;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,50 +45,23 @@ public class AddTask extends AppCompatActivity {
         EditText dtask = findViewById(R.id.dtask);
         EditText stask = findViewById(R.id.stask);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AddTask.this);
+        Set<String> allTeams= sharedPreferences.getStringSet("teams",new HashSet<String>());
+
+        AutoCompleteTextView menuView = findViewById(R.id.menu);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, new ArrayList<>(allTeams));
+        menuView.setAdapter(adapter);
+        menuView.setInputType(InputType.TYPE_NULL);
+
         Button button = findViewById(R.id.fromAddTask);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(AddTask.this, "submitted!", Toast.LENGTH_LONG).show();
-
-                Team teamA= Team.builder().teamName("a").build(); //team from aws
-                Amplify.API.mutate(
-                        ModelMutation.create(teamA),
-                        response -> Log.i("MyAmplifyApp", "Added team with id: " + response.getData().getId()),
-                        error -> Log.e("MyAmplifyApp", "Create failed", error)
-                );
-                Team teamB= Team.builder().teamName("b").build(); //team from aws
-                Amplify.API.mutate(
-                        ModelMutation.create(teamB),
-                        response -> Log.i("MyAmplifyApp", "Added team with id: " + response.getData().getId()),
-                        error -> Log.e("MyAmplifyApp", "Create failed", error)
-                );
-
-                Team teamC= Team.builder().teamName("c").build(); //team from aws
-                Amplify.API.mutate(
-                        ModelMutation.create(teamC),
-                        response -> Log.i("MyAmplifyApp", "Added team with id: " + response.getData().getId()),
-                        error -> Log.e("MyAmplifyApp", "Create failed", error)
-                );
-
+                t =Task.builder().teamName(menuView.getText().toString()).title(mtask.getText().toString()).body(dtask.getText().toString()).state(stask.getText().toString()).build();
                 /*---------------------------------------------------*/
-                RadioGroup teams=findViewById(R.id.teams);
-                int teamNumber=teams.getCheckedRadioButtonId();
-                RadioButton radioButton=findViewById(teamNumber);
-
-                System.out.println("teamssssssssssssssssssssss"+teams.getCheckedRadioButtonId());
-                Task task;
-                if(radioButton.getText()=="A"){
-                     task = Task.builder().team(teamA).title(mtask.getText().toString()).body(dtask.getText().toString()).state(stask.getText().toString()).build();
-
-                }else if(radioButton.getText()=="B"){
-                     task = Task.builder().team(teamB).title(mtask.getText().toString()).body(dtask.getText().toString()).state(stask.getText().toString()).build();
-
-                }else {
-                     task = Task.builder().team(teamC).title(mtask.getText().toString()).body(dtask.getText().toString()).state(stask.getText().toString()).build();
-                }
                 Amplify.API.mutate(
-                        ModelMutation.create(task),
+                        ModelMutation.create(t),
                         response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
                         error -> Log.e("MyAmplifyApp", "Create failed", error)
                 );

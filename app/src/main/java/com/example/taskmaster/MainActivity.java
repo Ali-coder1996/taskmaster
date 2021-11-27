@@ -29,10 +29,12 @@ import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
-
+    public Set<String> teamNameList=new HashSet<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String teamName = sharedPreferences.getString("teamName","team name");
+        String name = sharedPreferences.getString("userName","username");
+        TextView textView = findViewById(R.id.name);
+        textView.setText(name+"'s " +"Tasks");
+
         RecyclerView recyclerView = findViewById(R.id.allTaskRecyclerView);
         Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
             @Override
@@ -107,7 +115,9 @@ public class MainActivity extends AppCompatActivity {
                 ModelQuery.list(Task.class),
                 response -> {
                     for (Task task : response.getData()) {
-                        allTask.add(task);
+                        if (task.getTeamName().equals(teamName)) {
+                            allTask.add(task);
+                        }
                     }
                     handler.sendEmptyMessage(1);
                 },
@@ -115,10 +125,23 @@ public class MainActivity extends AppCompatActivity {
         );
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(new TasksAdapter(this, allTask));
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        String name = sharedPreferences.getString("userName","username");
-        TextView textView = findViewById(R.id.name);
-        textView.setText(name+"'s " +"Tasks");
+
+        Amplify.API.query(
+                ModelQuery.list(Team.class),
+                response -> {
+                    for (Team team : response.getData()) {
+                        Log.i("teamName",team.getTeamName());
+                        teamNameList.add(team.getTeamName());
+                    }
+                    SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                    sharedPreferences1.edit().putStringSet("teams",teamNameList).apply();
+                },
+
+                error -> Log.e("TaskMaster", error.toString(), error)
+        );
+
+
+
 
     }
 
