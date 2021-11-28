@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,9 @@ import com.amplifyframework.AmplifyException;
 //import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.configure(getApplicationContext());
 
@@ -50,7 +55,40 @@ public class MainActivity extends AppCompatActivity {
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
+        TextView loginUser = findViewById(R.id.loginUser);
 
+        Button singup = findViewById(R.id.singup);
+        singup.setVisibility(View.VISIBLE);
+        singup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Amplify.Auth.signInWithWebUI(
+                        MainActivity.this,
+                        result -> Log.i("AuthQuickStart", result.toString()),
+                        error -> Log.e("AuthQuickStart", error.toString())
+//                        String user = loginUser.setText();
+
+                );
+                Toast.makeText(MainActivity.this,"a",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button logout = findViewById(R.id.logout);
+        logout.setVisibility(View.VISIBLE);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Amplify.Auth.signOut(
+                        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                        error -> Log.e("AuthQuickstart", error.toString())
+                );
+                Toast.makeText(MainActivity.this,"a",Toast.LENGTH_LONG).show();
+            }
+        });
+        Amplify.Auth.fetchAuthSession(
+                result -> Log.i("AmplifyQuickstart", result.toString()),
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
 
 
         Button AddTask = findViewById(R.id.AddTask);
@@ -94,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         String teamName = sharedPreferences.getString("teamName","team name");
@@ -139,10 +178,21 @@ public class MainActivity extends AppCompatActivity {
 
                 error -> Log.e("TaskMaster", error.toString(), error)
         );
+        Button singup = findViewById(R.id.singup);
+        Button logout = findViewById(R.id.logout);
+        TextView loginUser = findViewById(R.id.loginUser);
 
-
-
-
+        Amplify.Auth.fetchAuthSession(
+                result ->{
+                    if(result.isSignedIn()){
+                        singup.setVisibility(View.INVISIBLE);
+                        loginUser.setText(Amplify.Auth.getCurrentUser().getUsername());
+                    }else{
+                        logout.setVisibility(View.INVISIBLE);
+                    }
+                },
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
     }
 
     }
