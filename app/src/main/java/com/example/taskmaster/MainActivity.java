@@ -31,6 +31,7 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,6 +40,8 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     public Set<String> teamNameList=new HashSet<>();
+    private Handler handleImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,16 +52,18 @@ public class MainActivity extends AppCompatActivity {
             // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
+
+
         TextView loginUser = findViewById(R.id.loginUser);
 
         Button singup = findViewById(R.id.singup);
-        singup.setVisibility(View.VISIBLE);
         singup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button logout = findViewById(R.id.logout);
-        logout.setVisibility(View.VISIBLE);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,10 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"a",Toast.LENGTH_LONG).show();
             }
         });
-        Amplify.Auth.fetchAuthSession(
-                result -> Log.i("AmplifyQuickstart", result.toString()),
-                error -> Log.e("AmplifyQuickstart", error.toString())
-        );
+
 
 
         Button AddTask = findViewById(R.id.AddTask);
@@ -181,21 +182,27 @@ public class MainActivity extends AppCompatActivity {
         Button singup = findViewById(R.id.singup);
         Button logout = findViewById(R.id.logout);
         TextView loginUser = findViewById(R.id.loginUser);
+        logout.setVisibility(View.INVISIBLE);
 
         Amplify.Auth.fetchAuthSession(
                 result ->{
                     if(result.isSignedIn()){
+                        logout.setVisibility(View.VISIBLE);
                         singup.setVisibility(View.INVISIBLE);
                         loginUser.setText(Amplify.Auth.getCurrentUser().getUsername());
                     }else{
+                        singup.setVisibility(View.VISIBLE);
                         logout.setVisibility(View.INVISIBLE);
+
                     }
                 },
                 error -> Log.e("AmplifyQuickstart", error.toString())
         );
     }
 
+
     }
+
 
 
 

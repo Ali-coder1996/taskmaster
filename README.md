@@ -75,4 +75,19 @@
 * provide the task in main related to user team
 
 ![](screenshots/team.png)
+
 ![](screenshots/teams.png)
+
+# lab 34
+
+![](screenshots/singin.png)
+
+![](screenshots/singinAfter.png)
+
+![](screenshots/successuser.png)
+
+# lab 37
+
+![](screenshots/upload1.png)
+![](screenshots/upload2.png)
+![](screenshots/upload3.png)
