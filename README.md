@@ -67,8 +67,12 @@
 ## lab 32
 
 ## I change the Room database to aws
+![](screenshots/aws.png)
 
 # lab 33
 
 * add team to the app
 * provide the task in main related to user team
+
+![](screenshots/team.png)
+![](screenshots/teams.png)
