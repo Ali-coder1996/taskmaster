@@ -44,6 +44,19 @@
         app:layout_constraintTop_toBottomOf="@+id/detail"
         app:layout_constraintVertical_bias="0.05" />
 
+    <ImageView
+        android:id="@+id/ali"
+        android:layout_width="315dp"
+        android:layout_height="267dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="69dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="269dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/md"
+        app:srcCompat="@drawable/placeholder" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

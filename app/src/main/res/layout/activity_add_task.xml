@@ -6,12 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".AddTask">
 
+    <Button
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:backgroundTint="#8FC8F4"
+        android:text="Add Task"
+        android:textColor="#776565"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/stask"
         android:layout_width="285dp"
         android:layout_height="54dp"
         android:hint="state"
-        app:layout_constraintBottom_toTopOf="@+id/fromAddTask"
+        app:layout_constraintBottom_toTopOf="@+id/upload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.388"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,17 +57,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/fromAddTask"
+        android:id="@+id/upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="60dp"
         android:backgroundTint="#8FC8F4"
-        android:text="Add Task"
+        android:text="upload"
         android:textColor="#776565"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.425"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintStart_toEndOf="@+id/add" />
 
     <TextView
         android:id="@+id/textView3"
@@ -67,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.28"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fromAddTask"
+        app:layout_constraintTop_toBottomOf="@+id/upload"
         app:layout_constraintVertical_bias="0.436" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -115,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:hint="team List"
-        app:layout_constraintBottom_toTopOf="@+id/fromAddTask"
+        app:layout_constraintBottom_toTopOf="@+id/upload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
