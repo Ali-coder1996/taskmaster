@@ -2,6 +2,7 @@ package com.example.taskmaster;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
 
-
         TextView loginUser = findViewById(R.id.loginUser);
 
         Button singup = findViewById(R.id.singup);
@@ -112,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
