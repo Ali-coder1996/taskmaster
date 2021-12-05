@@ -58,6 +58,16 @@ public class AddTask extends AppCompatActivity {
         menuView.setAdapter(adapter);
         menuView.setInputType(InputType.TYPE_NULL);
 
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                handleSendImage(intent); // Handle single image being sent
+            }
+        }
+
+
         Button button = findViewById(R.id.add);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,10 +110,6 @@ public class AddTask extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        assert data !=null;
-//        path = data.getData();
-//        File file =new File(path.getPath());
-//        fileName =file.getName();
         try {
              inputStream = getContentResolver().openInputStream(data.getData());
             File files = new File(data.getData().getPath());
@@ -116,6 +122,28 @@ public class AddTask extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
+//    public void handleSendImage(Intent intent) {
+//        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+//        if (imageUri != null) {
+//            try {
+//                inputStream = getContentResolver().openInputStream(imageUri);
+//                File files = new File(imageUri.getPath());
+//                fileName = files.getName();
+//                Log.i ("MyAmplifyApp", fileName);
+//                Toast.makeText(getApplicationContext(),"Added the file Successfully",Toast.LENGTH_LONG).show();
+//
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            Toast.makeText(getApplicationContext(),imageUri.getPath(),Toast.LENGTH_SHORT).show();
+//        }
+//    }
+    public void handleSendImage(Intent intent) {
+        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        if (imageUri != null) {
+            File files = new File(imageUri.getPath());
+            fileName = files.getName();
+            Toast.makeText(getApplicationContext(),imageUri.getPath(),Toast.LENGTH_SHORT).show();
+        }
+    }
 }

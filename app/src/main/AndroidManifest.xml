@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.taskmaster">
 
     <queries>
@@ -26,6 +27,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
         <activity
             android:name=".SettingsPage"
             android:exported="true"
@@ -45,7 +47,14 @@
             android:name=".AddTask"
             android:exported="true"
             android:label="AddTasks"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
+                <data android:mimeType="image/*"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".spllash"
             android:exported="true">
